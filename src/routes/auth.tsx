@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Activity } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { claimOwner, ownerExists } from "@/lib/auth.functions";
+import { claimOwner, ensureDemoAccount, ownerExists } from "@/lib/auth.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
