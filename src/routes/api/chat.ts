@@ -82,7 +82,7 @@ export const Route = createFileRoute("/api/chat")({
             thread_id: thread.id as string,
             user_id: user.id,
             role: "user",
-            parts: lastUser.parts,
+            parts: JSON.parse(JSON.stringify(lastUser.parts)),
           });
           if ((thread.title as string) === "New conversation") {
             const text = lastUser.parts
@@ -135,7 +135,7 @@ export const Route = createFileRoute("/api/chat")({
               thread_id: thread.id as string,
               user_id: user.id,
               role: "assistant",
-              parts: responseMessage.parts,
+              parts: JSON.parse(JSON.stringify(responseMessage.parts)),
             });
             await supabaseAdmin
               .from("chat_threads")
