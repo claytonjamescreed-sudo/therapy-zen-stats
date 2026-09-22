@@ -32,6 +32,7 @@ function AuthPage() {
   const navigate = useNavigate();
   const checkOwner = useServerFn(ownerExists);
   const claim = useServerFn(claimOwner);
+  const ensureDemo = useServerFn(ensureDemoAccount);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -67,6 +68,21 @@ function AuthPage() {
       navigate({ to: "/dashboard", replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Sign in failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function devLogin(kind: "owner" | "client") {
+    setBusy(true);
+    try {
+      const creds = await ensureDemo({ data: { kind } });
+      const { error } = await supabase.auth.signInWithPassword(creds);
+      if (error) throw error;
+      toast.success(kind === "owner" ? "Signed in as demo owner" : "Signed in as demo client");
+      navigate({ to: "/dashboard", replace: true });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Dev sign in failed");
     } finally {
       setBusy(false);
     }
