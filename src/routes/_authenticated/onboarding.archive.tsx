@@ -9,13 +9,13 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/_authenticated/onboarding/archive")({
   head: () => ({
     meta: [
-      { title: "Completed Items — Pepper" },
+      { title: "Completed Items — Pepper | HPC Billing" },
       {
         name: "description",
         content:
           "Archive of signed contracts, agreements and completed onboarding steps, available any time after go-live.",
       },
-      { property: "og:title", content: "Completed Items — Pepper" },
+      { property: "og:title", content: "Completed Items — Pepper | HPC Billing" },
       {
         property: "og:description",
         content: "Signed contracts and completed onboarding steps, kept accessible.",

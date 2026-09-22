@@ -14,7 +14,7 @@ export type MonthPoint = {
 export type ChecklistItem = {
   id: string;
   label: string;
-  owner: "Pepper" | "Client";
+  owner: "HPC Billing" | "Client";
   due: string;
   done: boolean;
   archiveLabel?: string | undefined;
@@ -175,7 +175,7 @@ export const practices: Practice[] = [
           {
             id: "payers",
             label: "Confirm payer mix and contracted rates",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Aug 25",
             done: true,
             archiveLabel: "Payer mix summary",
@@ -190,7 +190,7 @@ export const practices: Practice[] = [
         items: [
           {
             id: "sp-user",
-            label: "Create Simple Practice billing user for Pepper",
+            label: "Create Simple Practice billing user for HPC Billing",
             owner: "Client",
             due: "Aug 28",
             done: true,
@@ -207,7 +207,7 @@ export const practices: Practice[] = [
           {
             id: "sp-verify",
             label: "Verify session data pulls cleanly",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Sep 2",
             done: true,
             completedOn: "Sep 1, 2026",
@@ -222,7 +222,7 @@ export const practices: Practice[] = [
           {
             id: "backlog",
             label: "Import 12 months of historic claims",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Sep 10",
             done: true,
             completedOn: "Sep 9, 2026",
@@ -230,7 +230,7 @@ export const practices: Practice[] = [
           {
             id: "recon",
             label: "Reconcile opening AR balance",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Sep 18",
             done: false,
           },
@@ -251,7 +251,7 @@ export const practices: Practice[] = [
           {
             id: "kickoff",
             label: "Dashboard walkthrough with practice owner",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Sep 24",
             done: false,
           },
@@ -368,7 +368,7 @@ export const practices: Practice[] = [
           {
             id: "payers",
             label: "Confirm payer mix and contracted rates",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Sep 26",
             done: false,
           },
@@ -381,7 +381,7 @@ export const practices: Practice[] = [
         items: [
           {
             id: "sp-user",
-            label: "Create Simple Practice billing user for Pepper",
+            label: "Create Simple Practice billing user for HPC Billing",
             owner: "Client",
             due: "Sep 17",
             done: true,
@@ -397,7 +397,7 @@ export const practices: Practice[] = [
           {
             id: "sp-verify",
             label: "Verify session data pulls cleanly",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Sep 22",
             done: false,
           },
@@ -411,14 +411,14 @@ export const practices: Practice[] = [
           {
             id: "backlog",
             label: "Import 12 months of historic claims",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Sep 30",
             done: false,
           },
           {
             id: "recon",
             label: "Reconcile opening AR balance",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Oct 4",
             done: false,
           },
@@ -439,7 +439,7 @@ export const practices: Practice[] = [
           {
             id: "kickoff",
             label: "Dashboard walkthrough with practice owner",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Oct 8",
             done: false,
           },
@@ -566,7 +566,7 @@ export const practices: Practice[] = [
           {
             id: "payers",
             label: "Confirm payer mix and contracted rates",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Jun 24",
             done: true,
             archiveLabel: "Payer mix summary",
@@ -581,7 +581,7 @@ export const practices: Practice[] = [
         items: [
           {
             id: "sp-user",
-            label: "Create Simple Practice billing user for Pepper",
+            label: "Create Simple Practice billing user for HPC Billing",
             owner: "Client",
             due: "Jun 26",
             done: true,
@@ -598,7 +598,7 @@ export const practices: Practice[] = [
           {
             id: "sp-verify",
             label: "Verify session data pulls cleanly",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Jun 30",
             done: true,
             completedOn: "Jun 30, 2026",
@@ -613,7 +613,7 @@ export const practices: Practice[] = [
           {
             id: "backlog",
             label: "Import 12 months of historic claims",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Jul 8",
             done: true,
             archiveLabel: "Historic claims import log",
@@ -622,7 +622,7 @@ export const practices: Practice[] = [
           {
             id: "recon",
             label: "Reconcile opening AR balance",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Jul 15",
             done: true,
             archiveLabel: "Opening AR reconciliation",
@@ -646,7 +646,7 @@ export const practices: Practice[] = [
           {
             id: "kickoff",
             label: "Dashboard walkthrough with practice owner",
-            owner: "Pepper",
+            owner: "HPC Billing",
             due: "Jul 22",
             done: true,
             completedOn: "Jul 22, 2026",

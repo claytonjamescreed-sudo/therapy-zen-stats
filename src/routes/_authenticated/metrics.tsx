@@ -14,9 +14,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 export const Route = createFileRoute("/_authenticated/metrics")({
   head: () => ({ meta: [
-    { title: "Your Metrics — Pepper" },
+    { title: "Your Metrics — Pepper | HPC Billing" },
     { name: "description", content: "Choose the outcomes that matter now and tailor the practice dashboard." },
-    { property: "og:title", content: "Your Metrics — Pepper" },
+    { property: "og:title", content: "Your Metrics — Pepper | HPC Billing" },
     { property: "og:description", content: "Personalize a practice dashboard using standard available metrics." },
   ] }),
   component: MetricsPage,

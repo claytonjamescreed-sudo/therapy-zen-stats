@@ -24,13 +24,13 @@ import {
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Client Accounts — Pepper" },
+      { title: "Client Accounts — Pepper | HPC Billing" },
       {
         name: "description",
         content:
           "Create logins for each practice and control which account's dashboard they can see.",
       },
-      { property: "og:title", content: "Client Accounts — Pepper" },
+      { property: "og:title", content: "Client Accounts — Pepper | HPC Billing" },
       {
         property: "og:description",
         content: "Invite practices and manage who can see which dashboard.",
@@ -96,7 +96,7 @@ function AdminPage() {
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Not available</CardTitle>
-            <CardDescription>Only Pepper team members can manage accounts.</CardDescription>
+            <CardDescription>Only HPC Billing team members can manage accounts.</CardDescription>
           </CardHeader>
         </Card>
       </AppShell>
@@ -196,7 +196,7 @@ function AdminPage() {
                     <p className="truncate text-xs text-muted-foreground">{a.email}</p>
                   </div>
                   <Badge variant={a.isAdmin ? "default" : "outline"} className="ml-auto">
-                    {a.isAdmin ? "Pepper team — all practices" : (a.practiceName ?? "Unassigned")}
+                    {a.isAdmin ? "HPC Billing team — all practices" : (a.practiceName ?? "Unassigned")}
                   </Badge>
                   {a.id === access.userId ? null : (
                     <Button

@@ -15,16 +15,16 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/_authenticated/agents/")({
   head: () => ({
     meta: [
-      { title: "Ask an agent — Pepper" },
+      { title: "Ask an agent — Pepper | HPC Billing" },
       {
         name: "description",
         content:
-          "Ask Pepper's intake, billing and insurance agents about your practice's numbers and get practical next steps.",
+          "Ask HPC Billing's Pepper specialists about your practice's numbers and get practical next steps.",
       },
-      { property: "og:title", content: "Ask an agent — Pepper" },
+      { property: "og:title", content: "Ask an agent — Pepper | HPC Billing" },
       {
         property: "og:description",
-        content: "Chat with Pepper's practice agents about intake, billing and insurance.",
+        content: "Chat with HPC Billing's Pepper specialists about intake, billing and insurance.",
       },
     ],
   }),
@@ -73,7 +73,7 @@ function AgentsPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-foreground">Ask an agent</h1>
         <p className="text-sm text-muted-foreground">
-          {practice.lifecycle === "live" ? `Pepper's specialists answer using ${practice.name}'s current numbers.` : `${practice.name} is still onboarding, so agents can help with setup but will not claim to analyze live performance.`} Conversations are saved to your account.
+          {practice.lifecycle === "live" ? `HPC Billing's Pepper specialists answer using ${practice.name}'s current numbers.` : `${practice.name} is still onboarding, so agents can help with setup but will not claim to analyze live performance.`} Conversations are saved to your account.
         </p>
       </div>
 

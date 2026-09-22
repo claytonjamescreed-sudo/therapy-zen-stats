@@ -13,13 +13,13 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/onboarding/")({
   head: () => ({
     meta: [
-      { title: "Onboarding Tracker — Pepper" },
+      { title: "Onboarding Tracker — Pepper | HPC Billing" },
       {
         name: "description",
         content:
           "Red, amber, green onboarding checklist showing every practice exactly where they stand and what is next.",
       },
-      { property: "og:title", content: "Onboarding Tracker — Pepper" },
+      { property: "og:title", content: "Onboarding Tracker — Pepper | HPC Billing" },
       {
         property: "og:description",
         content: "A provider-facing onboarding checklist with clear progress at every phase.",
