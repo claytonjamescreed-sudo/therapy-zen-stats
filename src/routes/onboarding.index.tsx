@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/onboarding/")({
   head: () => ({
@@ -50,7 +51,7 @@ function OnboardingPage() {
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Onboarding</h1>
           <p className="text-sm text-muted-foreground">
-            Where {practice.name} stands on getting fully set up with Pepper.
+            Tasks from the {practice.name} Asana board, grouped by section.
           </p>
         </div>
         <Button asChild variant="outline" size="sm">
@@ -83,10 +84,14 @@ function OnboardingPage() {
               )}
             </p>
           </div>
-          <div className="flex flex-col gap-2 text-xs text-muted-foreground md:w-56">
-            <span className="flex items-center gap-2">
-              <RefreshCcw className="size-3.5" /> Asana two-way sync — coming soon
+          <div className="flex flex-col gap-2 rounded-lg border border-border bg-secondary/40 p-3 text-xs text-muted-foreground md:w-64">
+            <span className="flex items-center gap-2 font-medium text-foreground">
+              <RefreshCcw className="size-3.5" /> {practice.asanaBoard.name}
             </span>
+            <span>
+              Asana board · last read {practice.asanaBoard.syncedMinutesAgo} min ago (demo data)
+            </span>
+            <span>Write-back to Asana — coming soon</span>
             <span className="flex items-center gap-2">
               <Bell className="size-3.5" /> Email reminders — coming soon
             </span>
@@ -119,7 +124,12 @@ function OnboardingPage() {
                   >
                     <Checkbox
                       checked={item.done}
-                      onCheckedChange={() => toggleItem(phase.id, item.id)}
+                      onCheckedChange={() => {
+                        toggleItem(phase.id, item.id);
+                        toast(item.done ? "Task reopened" : "Task marked complete", {
+                          description: "Write-back to Asana isn't live yet — demo only.",
+                        });
+                      }}
                       className="mt-0.5"
                     />
                     <span className="min-w-0 flex-1">

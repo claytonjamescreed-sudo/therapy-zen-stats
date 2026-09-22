@@ -61,6 +61,7 @@ export type Practice = {
   };
   history: MonthPoint[];
   revenueGoal: number;
+  asanaBoard: { name: string; syncedMinutesAgo: number };
   onboarding: ChecklistPhase[];
 };
 
@@ -105,6 +106,7 @@ export const practices: Practice[] = [
       { month: "Sep", sessions: 642, newPatients: 38 },
     ],
     revenueGoal: 165000,
+    asanaBoard: { name: "Willow Creek — Client Onboarding", syncedMinutesAgo: 12 },
     onboarding: [
       {
         id: "agreements",
@@ -303,6 +305,7 @@ export const practices: Practice[] = [
       { month: "Sep", sessions: 318, newPatients: 21 },
     ],
     revenueGoal: 80000,
+    asanaBoard: { name: "Harborlight — Client Onboarding", syncedMinutesAgo: 3 },
     onboarding: [
       {
         id: "agreements",
@@ -486,6 +489,7 @@ export const practices: Practice[] = [
       { month: "Sep", sessions: 884, newPatients: 29 },
     ],
     revenueGoal: 240000,
+    asanaBoard: { name: "Northstar — Client Onboarding", syncedMinutesAgo: 41 },
     onboarding: [
       {
         id: "agreements",
