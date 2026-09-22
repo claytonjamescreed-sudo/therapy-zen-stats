@@ -20,6 +20,8 @@ export const Route = createFileRoute("/_authenticated/onboarding/archive")({
         property: "og:description",
         content: "Signed contracts and completed onboarding steps, kept accessible.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ArchivePage,

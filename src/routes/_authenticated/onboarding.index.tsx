@@ -24,6 +24,8 @@ export const Route = createFileRoute("/_authenticated/onboarding/")({
         property: "og:description",
         content: "A provider-facing onboarding checklist with clear progress at every phase.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: OnboardingPage,

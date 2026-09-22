@@ -40,6 +40,8 @@ export const Route = createFileRoute("/_authenticated/agents/$threadId")({
         property: "og:description",
         content: "Continue your conversation with an HPC Billing Pepper specialist.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ThreadPage,

@@ -17,6 +17,8 @@ export const Route = createFileRoute("/_authenticated/portfolio")({
       { name: "description", content: "Owner view of practice health, onboarding, aging, attendance, and account activity." },
       { property: "og:title", content: "Practice Portfolio — Pepper | HPC Billing" },
       { property: "og:description", content: "A single owner view across every client practice." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PortfolioPage,

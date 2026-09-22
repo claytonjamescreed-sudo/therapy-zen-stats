@@ -18,6 +18,8 @@ export const Route = createFileRoute("/_authenticated/metrics")({
     { name: "description", content: "Choose the outcomes that matter now and tailor the practice dashboard." },
     { property: "og:title", content: "Your Metrics — Pepper | HPC Billing" },
     { property: "og:description", content: "Personalize a practice dashboard using standard available metrics." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
   ] }),
   component: MetricsPage,
 });

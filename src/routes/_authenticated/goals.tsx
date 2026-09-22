@@ -24,6 +24,8 @@ export const Route = createFileRoute("/_authenticated/goals")({
         property: "og:description",
         content: "Walk a revenue target back into the KPIs a practice needs to hit it.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: GoalsPage,

@@ -39,6 +39,8 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
         content:
           "Live month-to-date view of sessions, estimated revenue, insurance aging and cancellations.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: DashboardPage,

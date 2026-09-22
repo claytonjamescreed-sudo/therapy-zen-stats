@@ -35,6 +35,8 @@ export const Route = createFileRoute("/_authenticated/admin")({
         property: "og:description",
         content: "Invite practices and manage who can see which dashboard.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AdminPage,

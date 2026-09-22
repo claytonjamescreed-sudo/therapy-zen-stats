@@ -14,6 +14,8 @@ export const Route = createFileRoute("/_authenticated/onboarding-queue")({
     { name: "description", content: "Owner queue for practice onboarding progress, blockers, ownership, and account activity." },
     { property: "og:title", content: "Onboarding Queue — Pepper | HPC Billing" },
     { property: "og:description", content: "See every onboarding practice and its next required step." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
   ] }),
   component: OnboardingQueuePage,
 });

@@ -26,6 +26,8 @@ export const Route = createFileRoute("/_authenticated/agents/")({
         property: "og:description",
         content: "Chat with HPC Billing's Pepper specialists about intake, billing and insurance.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AgentsPage,
