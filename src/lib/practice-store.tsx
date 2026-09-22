@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
-import { practices, type ChecklistPhase, type Practice } from "@/data/practices";
+import { practices as allPractices, type ChecklistPhase, type Practice } from "@/data/practices";
 
 type Store = {
   practice: Practice;
@@ -15,24 +15,35 @@ type Store = {
 
 const PracticeContext = createContext<Store | null>(null);
 
-export function PracticeProvider({ children }: { children: ReactNode }) {
-  const [practiceId, setId] = useState(practices[0]!.id);
+export function PracticeProvider({
+  children,
+  allowedIds = null,
+}: {
+  children: ReactNode;
+  /** null = every practice (admins); otherwise only these practice ids. */
+  allowedIds?: string[] | null;
+}) {
+  const practices = useMemo(
+    () => (allowedIds ? allPractices.filter((p) => allowedIds.includes(p.id)) : allPractices),
+    [allowedIds],
+  );
+  const [practiceId, setId] = useState(practices[0]?.id ?? allPractices[0]!.id);
   const [rates, setRates] = useState<Record<string, number>>(() =>
-    Object.fromEntries(practices.map((p) => [p.id, p.defaultRate])),
+    Object.fromEntries(allPractices.map((p) => [p.id, p.defaultRate])),
   );
   const [goals, setGoals] = useState<Record<string, number>>(() =>
-    Object.fromEntries(practices.map((p) => [p.id, p.revenueGoal])),
+    Object.fromEntries(allPractices.map((p) => [p.id, p.revenueGoal])),
   );
   const [checklists, setChecklists] = useState<Record<string, ChecklistPhase[]>>(() =>
     Object.fromEntries(
-      practices.map((p) => [
+      allPractices.map((p) => [
         p.id,
         p.onboarding.map((phase) => ({ ...phase, items: phase.items.map((i) => ({ ...i })) })),
       ]),
     ),
   );
 
-  const practice = practices.find((p) => p.id === practiceId) ?? practices[0]!;
+  const practice = practices.find((p) => p.id === practiceId) ?? practices[0] ?? allPractices[0]!;
 
   const setPracticeId = useCallback((id: string) => setId(id), []);
   const setRate = useCallback(

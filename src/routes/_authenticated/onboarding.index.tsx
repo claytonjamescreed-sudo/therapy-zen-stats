@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/onboarding/")({
+export const Route = createFileRoute("/_authenticated/onboarding/")({
   head: () => ({
     meta: [
       { title: "Onboarding Tracker — Pepper" },
