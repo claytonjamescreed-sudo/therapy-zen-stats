@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Activity } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { claimOwner, ownerExists } from "@/lib/auth.functions";
+import { claimOwner, ensureDemoAccount, ownerExists } from "@/lib/auth.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,6 +32,7 @@ function AuthPage() {
   const navigate = useNavigate();
   const checkOwner = useServerFn(ownerExists);
   const claim = useServerFn(claimOwner);
+  const ensureDemo = useServerFn(ensureDemoAccount);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -67,6 +68,21 @@ function AuthPage() {
       navigate({ to: "/dashboard", replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Sign in failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function devLogin(kind: "owner" | "client") {
+    setBusy(true);
+    try {
+      const creds = await ensureDemo({ data: { kind } });
+      const { error } = await supabase.auth.signInWithPassword(creds);
+      if (error) throw error;
+      toast.success(kind === "owner" ? "Signed in as demo owner" : "Signed in as demo client");
+      navigate({ to: "/dashboard", replace: true });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Dev sign in failed");
     } finally {
       setBusy(false);
     }
@@ -125,6 +141,32 @@ function AuthPage() {
                 {busy ? "Please wait…" : setupMode ? "Create owner account" : "Sign in"}
               </Button>
             </form>
+
+            <div className="mt-6 border-t border-border pt-4">
+              <p className="text-xs text-muted-foreground">
+                Testing shortcut — remove before real client data goes in.
+              </p>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={busy}
+                  onClick={() => devLogin("owner")}
+                >
+                  Dev login (owner)
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={busy}
+                  onClick={() => devLogin("client")}
+                >
+                  Dev login (client)
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

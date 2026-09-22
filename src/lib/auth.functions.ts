@@ -124,6 +124,56 @@ export const createClientAccount = createServerFn({ method: "POST" })
     return { id: created.user.id };
   });
 
+/**
+ * Testing shortcut: makes sure a demo owner / demo client account exists and
+ * returns its credentials so the sign-in page can log straight in.
+ * Remove this before the app is used with real practice data.
+ */
+export const ensureDemoAccount = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => z.object({ kind: z.enum(["owner", "client"]) }).parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const isOwner = data.kind === "owner";
+    const email = isOwner ? "dev-owner@pepper.test" : "dev-client@pepper.test";
+    const password = "PepperDemo!2026";
+
+    const { data: list } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+    let user = (list?.users ?? []).find((u) => u.email === email) ?? null;
+
+    if (!user) {
+      const { data: created, error } = await supabaseAdmin.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true,
+      });
+      if (error || !created.user) throw new Error(error?.message ?? "Could not create demo account");
+      user = created.user;
+    } else {
+      await supabaseAdmin.auth.admin.updateUserById(user.id, { password, email_confirm: true });
+    }
+
+    await supabaseAdmin.from("profiles").upsert({
+      id: user.id,
+      email,
+      full_name: isOwner ? "Pepper Demo Owner" : "Willow Creek Demo",
+      practice_id: isOwner ? null : "willow-creek",
+      practice_name: isOwner ? null : "Willow Creek Counseling",
+    });
+
+    const role = isOwner ? "admin" : "client";
+    const { data: existingRole } = await supabaseAdmin
+      .from("user_roles")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("role", role)
+      .maybeSingle();
+    if (!existingRole) {
+      await supabaseAdmin.from("user_roles").insert({ user_id: user.id, role });
+    }
+
+    return { email, password };
+  });
+
 export const deleteAccount = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => z.object({ userId: z.string().uuid() }).parse(data))
