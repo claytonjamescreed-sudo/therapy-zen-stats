@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { Activity, LogOut, RefreshCw } from "lucide-react";
+import { LogOut, RefreshCw } from "lucide-react";
 import type { ReactNode } from "react";
 import { usePractice } from "@/lib/practice-store";
 import { useAccess } from "@/lib/access";
@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import hpcLogo from "@/assets/hpc-logo.png.asset.json";
 
 const nav = [
   { to: "/dashboard", label: "Dashboard" },
@@ -39,15 +40,14 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-sidebar-border bg-sidebar text-sidebar-foreground">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-6 py-4">
-          <div className="flex items-center gap-2">
-            <span className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Activity className="size-5" />
-            </span>
+          <div className="flex items-center gap-3">
+            <img src={hpcLogo.url} alt="Healthcare Partners" className="h-9 w-auto" />
+            <span className="h-8 w-px bg-sidebar-border" aria-hidden="true" />
             <div className="leading-tight">
-              <p className="text-sm font-semibold text-foreground">Pepper</p>
-              <p className="text-xs text-muted-foreground">Practice intelligence</p>
+              <p className="text-sm font-semibold text-sidebar-foreground">Pepper</p>
+              <p className="text-xs text-sidebar-foreground/65">Practice intelligence</p>
             </div>
           </div>
 
@@ -56,17 +56,17 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Link
                 key={item.to}
                 to={item.to}
-                className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                activeProps={{ className: "bg-secondary text-foreground font-medium" }}
+                className="rounded-md px-3 py-1.5 text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground font-medium" }}
               >
                 {item.label}
               </Link>
             ))}
             {access.isAdmin ? (
               <>
-                <Link to="/portfolio" className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" activeProps={{ className: "bg-secondary text-foreground font-medium" }}>Portfolio</Link>
-                <Link to="/onboarding-queue" className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" activeProps={{ className: "bg-secondary text-foreground font-medium" }}>Onboarding queue</Link>
-                <Link to="/admin" className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" activeProps={{ className: "bg-secondary text-foreground font-medium" }}>Client accounts</Link>
+                <Link to="/portfolio" className="rounded-md px-3 py-1.5 text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground font-medium" }}>Portfolio</Link>
+                <Link to="/onboarding-queue" className="rounded-md px-3 py-1.5 text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground font-medium" }}>Onboarding queue</Link>
+                <Link to="/admin" className="rounded-md px-3 py-1.5 text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground font-medium" }}>Client accounts</Link>
               </>
             ) : null}
           </nav>
@@ -74,7 +74,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="ml-auto flex items-center gap-3">
             {access.isAdmin ? (
               <>
-                <Badge variant="outline">Owner view</Badge>
+                <Badge variant="outline" className="border-sidebar-border text-sidebar-foreground">HPC owner view</Badge>
                 <Select value={practice.id} onValueChange={setPracticeId}>
                   <SelectTrigger className="w-[230px]">
                     <SelectValue />
@@ -89,17 +89,17 @@ export function AppShell({ children }: { children: ReactNode }) {
                 </Select>
               </>
             ) : (
-              <span className="text-sm font-medium text-foreground">{practice.name}</span>
+              <span className="text-sm font-medium text-sidebar-foreground">{practice.name}</span>
             )}
             <Button
-              variant="outline"
+              variant="secondary"
               size="sm"
               onClick={() => toast.success(`${practice.ehr} data refreshed`)}
             >
               <RefreshCw className="size-4" />
               Refresh
             </Button>
-            <Button variant="ghost" size="sm" onClick={signOut} title={access.email}>
+            <Button variant="ghost" size="sm" onClick={signOut} title={access.email} className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
               <LogOut className="size-4" />
               Sign out
             </Button>

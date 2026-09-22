@@ -13,10 +13,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export const Route = createFileRoute("/_authenticated/portfolio")({
   head: () => ({
     meta: [
-      { title: "Practice Portfolio — Pepper" },
+      { title: "Practice Portfolio — Pepper | HPC Billing" },
       { name: "description", content: "Owner view of practice health, onboarding, aging, attendance, and account activity." },
-      { property: "og:title", content: "Practice Portfolio — Pepper" },
+      { property: "og:title", content: "Practice Portfolio — Pepper | HPC Billing" },
       { property: "og:description", content: "A single owner view across every client practice." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PortfolioPage,
@@ -41,7 +43,7 @@ function PortfolioPage() {
     return true;
   }), [filter, practices]);
 
-  if (!access.isAdmin) return <AppShell><Card><CardHeader><CardTitle>Not available</CardTitle><CardDescription>Only Pepper owners can view the complete portfolio.</CardDescription></CardHeader></Card></AppShell>;
+  if (!access.isAdmin) return <AppShell><Card><CardHeader><CardTitle>Not available</CardTitle><CardDescription>Only HPC Billing owners can view the complete portfolio.</CardDescription></CardHeader></Card></AppShell>;
 
   const total90 = practices.filter((p) => p.lifecycle === "live").reduce((sum, p) => sum + p.current.aging.d90_plus, 0);
   const onboarding = practices.filter((p) => p.lifecycle === "onboarding").length;

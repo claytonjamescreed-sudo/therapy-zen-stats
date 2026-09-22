@@ -79,28 +79,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Pepper — Practice Intelligence" },
+      { title: "Pepper — Practice Intelligence by HPC Billing" },
       {
         name: "description",
         content:
-          "Live billing and onboarding dashboards for behavioral health practices, powered by EHR data.",
+          "Practice intelligence, billing insights and onboarding dashboards from HPC Billing.",
       },
-      { name: "author", content: "Pepper" },
-      { property: "og:title", content: "Pepper — Practice Intelligence" },
+      { name: "author", content: "HPC Billing" },
+      { property: "og:title", content: "Pepper — Practice Intelligence by HPC Billing" },
       {
         property: "og:description",
-        content: "Live billing and onboarding dashboards for behavioral health practices.",
+         content: "Practice intelligence, billing insights and onboarding dashboards from HPC Billing.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,

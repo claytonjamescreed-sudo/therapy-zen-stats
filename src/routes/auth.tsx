@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
-import { Activity } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { claimOwner, ensureDemoAccount, ownerExists } from "@/lib/auth.functions";
@@ -10,19 +9,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import hpcLogo from "@/assets/hpc-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Sign in — Pepper" },
+      { title: "Sign in — Pepper | HPC Billing" },
       {
         name: "description",
         content:
-          "Sign in to Pepper to see your practice's billing, revenue and onboarding dashboards.",
+          "Sign in to Pepper by HPC Billing to see your practice's billing, revenue and onboarding dashboards.",
       },
-      { property: "og:title", content: "Sign in — Pepper" },
-      { property: "og:description", content: "Secure sign in for Pepper practice dashboards." },
+      { property: "og:title", content: "Sign in — Pepper | HPC Billing" },
+      { property: "og:description", content: "Secure sign in for HPC Billing's Pepper practice dashboards." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AuthPage,
@@ -89,15 +91,13 @@ function AuthPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
       <div className="w-full max-w-sm">
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <span className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Activity className="size-5" />
-          </span>
-          <div className="leading-tight">
-            <p className="text-sm font-semibold text-foreground">Pepper</p>
-            <p className="text-xs text-muted-foreground">Practice intelligence</p>
+        <div className="mb-6 rounded-lg bg-sidebar px-6 py-5">
+          <img src={hpcLogo.url} alt="Healthcare Partners" className="mx-auto h-12 w-auto" />
+          <div className="mt-4 border-t border-sidebar-border pt-4 text-center leading-tight">
+            <p className="text-base font-semibold text-sidebar-foreground">Pepper</p>
+            <p className="text-xs text-sidebar-foreground/65">Practice intelligence by HPC Billing</p>
           </div>
         </div>
 
@@ -109,7 +109,7 @@ function AuthPage() {
             <CardDescription>
               {setupMode
                 ? "This is the first account, so it becomes the owner with access to every practice."
-                : "Accounts are created by Pepper. Use the email and password you were given."}
+                : "Accounts are managed by HPC Billing. Use the email and password you were given."}
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -27,18 +27,20 @@ import { defaultMetrics, type MetricId } from "@/lib/metrics";
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
-      { title: "Practice Dashboard — Pepper" },
+      { title: "Practice Dashboard — Pepper | HPC Billing" },
       {
         name: "description",
         content:
           "Live month-to-date view of sessions, estimated revenue, insurance aging, new patients and cancellations for behavioral health practices.",
       },
-      { property: "og:title", content: "Practice Dashboard — Pepper" },
+      { property: "og:title", content: "Practice Dashboard — Pepper | HPC Billing" },
       {
         property: "og:description",
         content:
           "Live month-to-date view of sessions, estimated revenue, insurance aging and cancellations.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: DashboardPage,
@@ -80,7 +82,7 @@ function DashboardPage() {
           <div className="mb-6 flex size-12 items-center justify-center rounded-lg bg-warning/20 text-warning-foreground"><Cable className="size-6" /></div>
           <h1 className="text-2xl font-semibold text-foreground">Your dashboard is getting ready</h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">{practice.name} is on day {practice.onboardingDay} of onboarding. Performance numbers will appear after {practice.ehr} access is verified, so nothing here is presented as live data yet.</p>
-          <Card className="mt-6"><CardHeader><CardTitle className="text-base">Setup is {progress}% complete</CardTitle><CardDescription>{completed} of {items.length} onboarding steps are finished.</CardDescription></CardHeader><CardContent className="space-y-4"><div className="flex items-start gap-3 rounded-md bg-secondary/50 p-4"><CheckCircle2 className="mt-0.5 size-5 text-warning" /><div><p className="text-sm font-medium text-foreground">Next: {next?.label ?? "Final data review"}</p><p className="text-xs text-muted-foreground">{next ? `${next.owner} · due ${next.due}` : "Pepper will confirm the launch date."}</p></div></div><div className="flex flex-wrap gap-2"><Button asChild><Link to="/onboarding">Continue onboarding</Link></Button><Button asChild variant="outline"><Link to="/metrics"><SlidersHorizontal className="size-4" />Choose your metrics</Link></Button></div></CardContent></Card>
+          <Card className="mt-6"><CardHeader><CardTitle className="text-base">Setup is {progress}% complete</CardTitle><CardDescription>{completed} of {items.length} onboarding steps are finished.</CardDescription></CardHeader><CardContent className="space-y-4"><div className="flex items-start gap-3 rounded-md bg-secondary/50 p-4"><CheckCircle2 className="mt-0.5 size-5 text-warning" /><div><p className="text-sm font-medium text-foreground">Next: {next?.label ?? "Final data review"}</p><p className="text-xs text-muted-foreground">{next ? `${next.owner} · due ${next.due}` : "HPC Billing will confirm the launch date."}</p></div></div><div className="flex flex-wrap gap-2"><Button asChild><Link to="/onboarding">Continue onboarding</Link></Button><Button asChild variant="outline"><Link to="/metrics"><SlidersHorizontal className="size-4" />Choose your metrics</Link></Button></div></CardContent></Card>
         </div>
       </AppShell>
     );

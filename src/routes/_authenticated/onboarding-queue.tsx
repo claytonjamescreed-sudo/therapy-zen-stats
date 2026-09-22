@@ -10,10 +10,12 @@ import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/_authenticated/onboarding-queue")({
   head: () => ({ meta: [
-    { title: "Onboarding Queue — Pepper" },
+    { title: "Onboarding Queue — Pepper | HPC Billing" },
     { name: "description", content: "Owner queue for practice onboarding progress, blockers, ownership, and account activity." },
-    { property: "og:title", content: "Onboarding Queue — Pepper" },
+    { property: "og:title", content: "Onboarding Queue — Pepper | HPC Billing" },
     { property: "og:description", content: "See every onboarding practice and its next required step." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
   ] }),
   component: OnboardingQueuePage,
 });
@@ -22,7 +24,7 @@ function OnboardingQueuePage() {
   const access = useAccess();
   const { practices, phasesFor, setPracticeId } = usePractice();
   const navigate = useNavigate();
-  if (!access.isAdmin) return <AppShell><Card><CardHeader><CardTitle>Not available</CardTitle><CardDescription>Only Pepper owners can view the onboarding queue.</CardDescription></CardHeader></Card></AppShell>;
+  if (!access.isAdmin) return <AppShell><Card><CardHeader><CardTitle>Not available</CardTitle><CardDescription>Only HPC Billing owners can view the onboarding queue.</CardDescription></CardHeader></Card></AppShell>;
   const onboarding = practices.filter((p) => p.lifecycle === "onboarding");
   return <AppShell>
     <div className="mb-6"><h1 className="text-2xl font-semibold text-foreground">Onboarding queue</h1><p className="text-sm text-muted-foreground">One list for practices between signed and live.</p></div>

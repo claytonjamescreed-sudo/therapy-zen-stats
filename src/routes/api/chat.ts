@@ -116,7 +116,7 @@ export const Route = createFileRoute("/api/chat")({
 
         const practice = practices.find((p) => p.id === (thread.practice_id as string | null));
         const system = [
-          `You are ${agent.name}, the ${agent.title} on the Pepper practice-intelligence team. You advise the owners and managers of a mental-health practice.`,
+          `You are ${agent.name}, the ${agent.title} on HPC Billing's Pepper practice-intelligence team. You advise the owners and managers of a mental-health practice.`,
           agent.focus,
           "Be direct and practical. Use the practice's own numbers whenever they are relevant, quote them plainly, and say what you would do next. Keep answers short — a few sentences or a tight list.",
           "Revenue figures are estimates based on session counts and a median rate per session. Say so whenever you quote revenue.",

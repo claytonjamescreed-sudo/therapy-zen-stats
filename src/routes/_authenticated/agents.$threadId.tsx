@@ -30,16 +30,18 @@ import type { StoredCitation } from "@/lib/chat.functions";
 export const Route = createFileRoute("/_authenticated/agents/$threadId")({
   head: () => ({
     meta: [
-      { title: "Agent conversation — Pepper" },
+      { title: "Agent conversation — Pepper | HPC Billing" },
       {
         name: "description",
-        content: "A saved conversation with one of Pepper's practice agents.",
+        content: "A saved conversation with one of HPC Billing's Pepper specialists.",
       },
-      { property: "og:title", content: "Agent conversation — Pepper" },
+      { property: "og:title", content: "Agent conversation — Pepper | HPC Billing" },
       {
         property: "og:description",
-        content: "Continue your conversation with a Pepper practice agent.",
+        content: "Continue your conversation with an HPC Billing Pepper specialist.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ThreadPage,
