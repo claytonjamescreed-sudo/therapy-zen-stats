@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-export const Route = createFileRoute("/_authenticated/agents")({
+export const Route = createFileRoute("/_authenticated/agents/")({
   head: () => ({
     meta: [
       { title: "Ask an agent — Pepper" },
