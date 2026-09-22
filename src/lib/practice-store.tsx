@@ -10,6 +10,7 @@ type Store = {
   goal: number;
   setGoal: (goal: number) => void;
   phases: ChecklistPhase[];
+  phasesFor: (practiceId: string) => ChecklistPhase[];
   toggleItem: (phaseId: string, itemId: string) => void;
 };
 
@@ -88,6 +89,7 @@ export function PracticeProvider({
       goal: goals[practiceId] ?? practice.revenueGoal,
       setGoal,
       phases: checklists[practiceId] ?? [],
+      phasesFor: (id) => checklists[id] ?? [],
       toggleItem,
     }),
     [practice, practiceId, rates, goals, checklists, setPracticeId, setRate, setGoal, toggleItem],
