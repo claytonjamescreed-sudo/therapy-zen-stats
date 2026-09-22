@@ -1,7 +1,10 @@
-import { Link } from "@tanstack/react-router";
-import { Activity, RefreshCw } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { Activity, LogOut, RefreshCw } from "lucide-react";
 import type { ReactNode } from "react";
 import { usePractice } from "@/lib/practice-store";
+import { useAccess } from "@/lib/access";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Select,
   SelectContent,
@@ -10,16 +13,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 const nav = [
-  { to: "/", label: "Dashboard" },
+  { to: "/dashboard", label: "Dashboard" },
   { to: "/goals", label: "Goals" },
   { to: "/onboarding", label: "Onboarding" },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { practice, practices, setPracticeId } = usePractice();
+  const access = useAccess();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  async function signOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -40,28 +54,43 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Link
                 key={item.to}
                 to={item.to}
-                activeOptions={{ exact: item.to === "/" }}
                 className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
                 activeProps={{ className: "bg-secondary text-foreground font-medium" }}
               >
                 {item.label}
               </Link>
             ))}
+            {access.isAdmin ? (
+              <Link
+                to="/admin"
+                className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                activeProps={{ className: "bg-secondary text-foreground font-medium" }}
+              >
+                Client accounts
+              </Link>
+            ) : null}
           </nav>
 
           <div className="ml-auto flex items-center gap-3">
-            <Select value={practice.id} onValueChange={setPracticeId}>
-              <SelectTrigger className="w-[230px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {practices.map((p) => (
-                  <SelectItem key={p.id} value={p.id}>
-                    {p.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            {access.isAdmin ? (
+              <>
+                <Badge variant="outline">Owner view</Badge>
+                <Select value={practice.id} onValueChange={setPracticeId}>
+                  <SelectTrigger className="w-[230px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {practices.map((p) => (
+                      <SelectItem key={p.id} value={p.id}>
+                        {p.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </>
+            ) : (
+              <span className="text-sm font-medium text-foreground">{practice.name}</span>
+            )}
             <Button
               variant="outline"
               size="sm"
@@ -70,6 +99,10 @@ export function AppShell({ children }: { children: ReactNode }) {
               <RefreshCw className="size-4" />
               Refresh
             </Button>
+            <Button variant="ghost" size="sm" onClick={signOut} title={access.email}>
+              <LogOut className="size-4" />
+              Sign out
+            </Button>
           </div>
         </div>
       </header>
@@ -77,7 +110,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       <main className="mx-auto max-w-7xl px-6 py-8">{children}</main>
 
       <footer className="mx-auto max-w-7xl px-6 pb-10 text-xs text-muted-foreground">
-        Demo data for review. Live EHR connections are not wired up in this version.
+        Signed in as {access.email}. Demo data for review — live EHR connections are not wired up in
+        this version.
       </footer>
     </div>
   );
