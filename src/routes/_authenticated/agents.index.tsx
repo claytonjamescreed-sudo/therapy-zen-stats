@@ -73,8 +73,7 @@ function AgentsPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-foreground">Ask an agent</h1>
         <p className="text-sm text-muted-foreground">
-          Pepper's specialists answer using {practice.name}'s current numbers. Conversations are
-          saved to your account.
+          {practice.lifecycle === "live" ? `Pepper's specialists answer using ${practice.name}'s current numbers.` : `${practice.name} is still onboarding, so agents can help with setup but will not claim to analyze live performance.`} Conversations are saved to your account.
         </p>
       </div>
 

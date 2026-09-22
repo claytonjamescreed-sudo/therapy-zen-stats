@@ -1,4 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { Cable, CheckCircle2, SlidersHorizontal } from "lucide-react";
 import {
   Area,
   AreaChart,
@@ -18,6 +21,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getMetricPreferences } from "@/lib/metric-preferences.functions";
+import { defaultMetrics, type MetricId } from "@/lib/metrics";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -40,7 +45,12 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function DashboardPage() {
-  const { practice, rate, setRate } = usePractice();
+  const { practice, rate, setRate, phases } = usePractice();
+  const loadPreferences = useServerFn(getMetricPreferences);
+  const preferences = useQuery({
+    queryKey: ["metric-preferences", practice.id],
+    queryFn: () => loadPreferences({ data: { practiceId: practice.id } }),
+  });
   const c = practice.current;
   const p = practice.previous;
 
@@ -56,6 +66,25 @@ function DashboardPage() {
   ];
 
   const trend = practice.history.map((h) => ({ ...h, revenue: h.sessions * rate }));
+  const selected = new Set<MetricId>(preferences.data?.selectedMetrics ?? defaultMetrics);
+
+  if (practice.lifecycle !== "live") {
+    const items = phases.flatMap((phase) => phase.items);
+    const completed = items.filter((item) => item.done).length;
+    const progress = items.length ? Math.round((completed / items.length) * 100) : 0;
+    const next = items.find((item) => !item.done);
+    return (
+      <AppShell>
+        <SyncBanner />
+        <div className="mx-auto max-w-3xl py-8">
+          <div className="mb-6 flex size-12 items-center justify-center rounded-lg bg-warning/20 text-warning-foreground"><Cable className="size-6" /></div>
+          <h1 className="text-2xl font-semibold text-foreground">Your dashboard is getting ready</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">{practice.name} is on day {practice.onboardingDay} of onboarding. Performance numbers will appear after {practice.ehr} access is verified, so nothing here is presented as live data yet.</p>
+          <Card className="mt-6"><CardHeader><CardTitle className="text-base">Setup is {progress}% complete</CardTitle><CardDescription>{completed} of {items.length} onboarding steps are finished.</CardDescription></CardHeader><CardContent className="space-y-4"><div className="flex items-start gap-3 rounded-md bg-secondary/50 p-4"><CheckCircle2 className="mt-0.5 size-5 text-warning" /><div><p className="text-sm font-medium text-foreground">Next: {next?.label ?? "Final data review"}</p><p className="text-xs text-muted-foreground">{next ? `${next.owner} · due ${next.due}` : "Pepper will confirm the launch date."}</p></div></div><div className="flex flex-wrap gap-2"><Button asChild><Link to="/onboarding">Continue onboarding</Link></Button><Button asChild variant="outline"><Link to="/metrics"><SlidersHorizontal className="size-4" />Choose your metrics</Link></Button></div></CardContent></Card>
+        </div>
+      </AppShell>
+    );
+  }
 
   return (
     <AppShell>
@@ -68,9 +97,7 @@ function DashboardPage() {
             Month-to-date performance, pulled from {practice.ehr}.
           </p>
         </div>
-        <Button asChild variant="outline" size="sm">
-          <Link to="/onboarding">View onboarding status</Link>
-        </Button>
+        <div className="flex gap-2"><Button asChild variant="outline" size="sm"><Link to="/metrics"><SlidersHorizontal className="size-4" />Customize metrics</Link></Button><Button asChild variant="outline" size="sm"><Link to="/onboarding">View onboarding status</Link></Button></div>
       </div>
 
       <Card className="mb-6 border-primary/25 bg-primary/5">
@@ -114,46 +141,46 @@ function DashboardPage() {
       </Card>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <MetricCard
+        {selected.has("sessions") ? <MetricCard
           label="Sessions held"
           value={c.sessions.toLocaleString()}
           change={pctChange(c.sessions, p.sessions)}
           sublabel="vs last month"
-        />
-        <MetricCard
+        /> : null}
+        {selected.has("insurance_aging") ? <MetricCard
           label="Insurance aging"
           value={currency(aging)}
           change={pctChange(aging, p.agingTotal)}
           inverse
           sublabel={`${currency(c.aging.d90_plus)} over 90 days`}
-        />
-        <MetricCard
+        /> : null}
+        {selected.has("patient_balances") ? <MetricCard
           label="Patient balances"
           value={currency(c.patientBalances)}
           change={pctChange(c.patientBalances, p.patientBalances)}
           inverse
           sublabel="outstanding AR"
-        />
-        <MetricCard
+        /> : null}
+        {selected.has("new_patients") ? <MetricCard
           label="New patients onboarded"
           value={String(c.newPatientsOnboarded)}
           change={pctChange(c.newPatientsOnboarded, p.newPatientsOnboarded)}
           sublabel="vs last month"
-        />
-        <MetricCard
+        /> : null}
+        {selected.has("new_appointments") ? <MetricCard
           label="New patient appointments"
           value={String(c.newPatientAppointments)}
           change={pctChange(c.newPatientAppointments, p.newPatientAppointments)}
           sublabel="booked this month"
-        />
-        <MetricCard
+        /> : null}
+        {selected.has("patient_cancellations") ? <MetricCard
           label="Patient cancellations"
           value={String(c.patientCancellations)}
           change={pctChange(c.patientCancellations, p.patientCancellations)}
           inverse
           sublabel="all patient-initiated"
-        />
-        <MetricCard
+        /> : null}
+        {selected.has("no_shows") ? <MetricCard
           label="No-shows / late cancels"
           value={`${c.noShows} / ${c.lateCancellations}`}
           change={pctChange(
@@ -162,14 +189,14 @@ function DashboardPage() {
           )}
           inverse
           sublabel={`${currency((c.noShows + c.lateCancellations) * rate)} at risk`}
-        />
-        <MetricCard
+        /> : null}
+        {selected.has("therapist_cancellations") ? <MetricCard
           label="Therapist-canceled"
           value={String(c.therapistCancellations)}
           change={pctChange(c.therapistCancellations, p.therapistCancellations)}
           inverse
           sublabel="tracked separately"
-        />
+        /> : null}
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-3">

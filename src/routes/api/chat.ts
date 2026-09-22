@@ -34,6 +34,22 @@ function practiceBriefing(practiceId: string | undefined) {
   ].join("\n");
 }
 
+function citationsFor(practiceId: string | null, agentKey: string) {
+  const practice = practices.find((p) => p.id === practiceId);
+  if (!practice) return [];
+  if (practice.lifecycle !== "live") {
+    return [{ label: "Onboarding checklist", source: `${practice.asanaBoard.name} (demo)`, period: `Day ${practice.onboardingDay} of 30` }];
+  }
+  const datasets = agentKey === "ingrid"
+    ? ["Appointments", "New-patient intake"]
+    : agentKey === "billing"
+      ? ["Patient balances", "Session ledger"]
+      : agentKey === "insurance"
+        ? ["Insurance claims aging", "Payer status"]
+        : ["Appointments", "Insurance claims aging", "Patient balances"];
+  return datasets.map((label) => ({ label, source: practice.ehr, period: practice.monthLabel }));
+}
+
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
@@ -98,12 +114,15 @@ export const Route = createFileRoute("/api/chat")({
           }
         }
 
+        const practice = practices.find((p) => p.id === (thread.practice_id as string | null));
         const system = [
           `You are ${agent.name}, the ${agent.title} on the Pepper practice-intelligence team. You advise the owners and managers of a mental-health practice.`,
           agent.focus,
           "Be direct and practical. Use the practice's own numbers whenever they are relevant, quote them plainly, and say what you would do next. Keep answers short — a few sentences or a tight list.",
           "Revenue figures are estimates based on session counts and a median rate per session. Say so whenever you quote revenue.",
           "If a question needs data the dashboard does not hold, say what is missing rather than inventing it.",
+          "Do not add a sources section in prose; Pepper displays the available source records separately.",
+          practice?.lifecycle !== "live" ? "This practice is pre-launch. Do not analyze the sample performance figures as live data. Help only with onboarding, metric selection, or what will become available after connection." : "The practice data below is live demo data for this product review.",
           "",
           "Current practice data:",
           practiceBriefing((thread.practice_id as string | null) ?? body.practiceId),
@@ -131,11 +150,15 @@ export const Route = createFileRoute("/api/chat")({
         return result.toUIMessageStreamResponse({
           originalMessages: uiMessages,
           onFinish: async ({ responseMessage }) => {
+            const persistedParts = [
+              ...responseMessage.parts,
+              { type: "data-citations", data: { citations: citationsFor((thread.practice_id as string | null) ?? null, agent.key) } },
+            ];
             await supabaseAdmin.from("chat_messages").insert({
               thread_id: thread.id as string,
               user_id: user.id,
               role: "assistant",
-              parts: JSON.parse(JSON.stringify(responseMessage.parts)),
+              parts: JSON.parse(JSON.stringify(persistedParts)),
             });
             await supabaseAdmin
               .from("chat_threads")

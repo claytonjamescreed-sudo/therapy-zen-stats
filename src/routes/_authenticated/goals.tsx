@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/goals")({
   head: () => ({
@@ -30,6 +32,10 @@ export const Route = createFileRoute("/_authenticated/goals")({
 function GoalsPage() {
   const { practice, rate, goal, setGoal } = usePractice();
   const c = practice.current;
+
+  if (practice.lifecycle !== "live") {
+    return <AppShell><SyncBanner /><Card className="mx-auto max-w-2xl"><CardHeader><CardTitle>Goals unlock after your first data pull</CardTitle><CardDescription>Pepper needs verified sessions and attendance data before walking a revenue target back to reliable operating numbers.</CardDescription></CardHeader><CardContent className="flex gap-2"><Button asChild><Link to="/onboarding">Continue onboarding</Link></Button><Button asChild variant="outline"><Link to="/metrics">Choose future metrics</Link></Button></CardContent></Card></AppShell>;
+  }
 
   const estRevenue = c.sessions * rate;
   const sessionsNeeded = Math.ceil(goal / rate);
