@@ -16,7 +16,7 @@ type Store = {
 const PracticeContext = createContext<Store | null>(null);
 
 export function PracticeProvider({ children }: { children: ReactNode }) {
-  const [practiceId, setId] = useState(practices[0].id);
+  const [practiceId, setId] = useState(practices[0]!.id);
   const [rates, setRates] = useState<Record<string, number>>(() =>
     Object.fromEntries(practices.map((p) => [p.id, p.defaultRate])),
   );
@@ -32,7 +32,7 @@ export function PracticeProvider({ children }: { children: ReactNode }) {
     ),
   );
 
-  const practice = practices.find((p) => p.id === practiceId) ?? practices[0];
+  const practice = practices.find((p) => p.id === practiceId) ?? practices[0]!;
 
   const setPracticeId = useCallback((id: string) => setId(id), []);
   const setRate = useCallback(
@@ -47,7 +47,7 @@ export function PracticeProvider({ children }: { children: ReactNode }) {
     (phaseId: string, itemId: string) =>
       setChecklists((prev) => ({
         ...prev,
-        [practiceId]: prev[practiceId].map((phase) =>
+        [practiceId]: (prev[practiceId] ?? []).map((phase) =>
           phase.id !== phaseId
             ? phase
             : {
@@ -72,11 +72,11 @@ export function PracticeProvider({ children }: { children: ReactNode }) {
       practice,
       practices,
       setPracticeId,
-      rate: rates[practiceId],
+      rate: rates[practiceId] ?? practice.defaultRate,
       setRate,
-      goal: goals[practiceId],
+      goal: goals[practiceId] ?? practice.revenueGoal,
       setGoal,
-      phases: checklists[practiceId],
+      phases: checklists[practiceId] ?? [],
       toggleItem,
     }),
     [practice, practiceId, rates, goals, checklists, setPracticeId, setRate, setGoal, toggleItem],

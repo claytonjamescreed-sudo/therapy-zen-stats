@@ -17,8 +17,8 @@ export type ChecklistItem = {
   owner: "Pepper" | "Client";
   due: string;
   done: boolean;
-  archiveLabel?: string;
-  completedOn?: string;
+  archiveLabel?: string | undefined;
+  completedOn?: string | undefined;
 };
 
 export type ChecklistPhase = {
