@@ -82,6 +82,33 @@ export type Database = {
         }
         Relationships: []
       }
+      practice_metric_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          practice_id: string
+          selected_metrics: string[]
+          selected_outcomes: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          practice_id: string
+          selected_metrics?: string[]
+          selected_outcomes?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          practice_id?: string
+          selected_metrics?: string[]
+          selected_outcomes?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string

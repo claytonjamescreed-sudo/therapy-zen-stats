@@ -2,7 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-export type StoredPart = { type: string; text?: string };
+export type StoredCitation = { label: string; source: string; period: string };
+export type StoredPart = { type: string; text?: string; data?: { citations?: StoredCitation[] } };
 
 export type ThreadSummary = {
   id: string;

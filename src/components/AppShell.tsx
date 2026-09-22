@@ -21,6 +21,7 @@ const nav = [
   { to: "/goals", label: "Goals" },
   { to: "/onboarding", label: "Onboarding" },
   { to: "/agents", label: "Ask an agent" },
+  { to: "/metrics", label: "Your metrics" },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -62,13 +63,11 @@ export function AppShell({ children }: { children: ReactNode }) {
               </Link>
             ))}
             {access.isAdmin ? (
-              <Link
-                to="/admin"
-                className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                activeProps={{ className: "bg-secondary text-foreground font-medium" }}
-              >
-                Client accounts
-              </Link>
+              <>
+                <Link to="/portfolio" className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" activeProps={{ className: "bg-secondary text-foreground font-medium" }}>Portfolio</Link>
+                <Link to="/onboarding-queue" className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" activeProps={{ className: "bg-secondary text-foreground font-medium" }}>Onboarding queue</Link>
+                <Link to="/admin" className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" activeProps={{ className: "bg-secondary text-foreground font-medium" }}>Client accounts</Link>
+              </>
             ) : null}
           </nav>
 
@@ -124,13 +123,13 @@ export function SyncBanner() {
     <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-border bg-card px-4 py-3 text-sm">
       <span className="flex items-center gap-2 font-medium text-foreground">
         <span className="relative flex size-2">
-          <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-70" />
-          <span className="relative inline-flex size-2 rounded-full bg-success" />
+          {practice.lifecycle === "live" ? <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-70" /> : null}
+          <span className={`relative inline-flex size-2 rounded-full ${practice.lifecycle === "live" ? "bg-success" : "bg-warning"}`} />
         </span>
         {practice.ehr}
       </span>
       <span className="text-muted-foreground">
-        Synced {practice.syncedMinutesAgo} minutes ago · {practice.clinicians} clinicians ·{" "}
+        {practice.lifecycle === "live" ? `Synced ${practice.syncedMinutesAgo} minutes ago` : `Pre-launch · day ${practice.onboardingDay} of 30`} · {practice.clinicians} clinicians ·{" "}
         {practice.location}
       </span>
       <span className="ml-auto text-muted-foreground">{practice.monthLabel}</span>

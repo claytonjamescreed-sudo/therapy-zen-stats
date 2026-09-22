@@ -37,6 +37,10 @@ export type Practice = {
   clinicians: number;
   defaultRate: number;
   monthLabel: string;
+  lifecycle: "live" | "onboarding";
+  onboardingDay: number;
+  lastLogin: string;
+  attention: "healthy" | "watch" | "urgent";
   current: {
     sessions: number;
     newPatientsOnboarded: number;
@@ -75,6 +79,10 @@ export const practices: Practice[] = [
     clinicians: 9,
     defaultRate: 225,
     monthLabel: "September 2026 (month to date)",
+    lifecycle: "live",
+    onboardingDay: 30,
+    lastLogin: "Today",
+    attention: "healthy",
     current: {
       sessions: 642,
       newPatientsOnboarded: 38,
@@ -274,6 +282,10 @@ export const practices: Practice[] = [
     clinicians: 5,
     defaultRate: 210,
     monthLabel: "September 2026 (month to date)",
+    lifecycle: "onboarding",
+    onboardingDay: 18,
+    lastLogin: "6 days ago",
+    attention: "watch",
     current: {
       sessions: 318,
       newPatientsOnboarded: 21,
@@ -458,6 +470,10 @@ export const practices: Practice[] = [
     clinicians: 14,
     defaultRate: 240,
     monthLabel: "September 2026 (month to date)",
+    lifecycle: "live",
+    onboardingDay: 30,
+    lastLogin: "Yesterday",
+    attention: "urgent",
     current: {
       sessions: 884,
       newPatientsOnboarded: 29,

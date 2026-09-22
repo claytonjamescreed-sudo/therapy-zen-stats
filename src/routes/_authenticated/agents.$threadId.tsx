@@ -24,6 +24,8 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { Button } from "@/components/ui/button";
+import { Sources, SourcesContent, SourcesTrigger } from "@/components/ai-elements/sources";
+import type { StoredCitation } from "@/lib/chat.functions";
 
 export const Route = createFileRoute("/_authenticated/agents/$threadId")({
   head: () => ({
@@ -134,6 +136,13 @@ function ChatWindow({
 
   const isBusy = status === "submitted" || status === "streaming";
 
+  function citationsForMessage(message: UIMessage): StoredCitation[] {
+    const part = message.parts.find((candidate) => candidate.type === "data-citations") as { data?: { citations?: StoredCitation[] } } | undefined;
+    if (part?.data?.citations?.length) return part.data.citations;
+    if (message.role !== "assistant") return [];
+    return [{ label: "Practice dashboard", source: practiceName ?? "Selected practice", period: "Current reporting period" }];
+  }
+
   useEffect(() => {
     if (!isBusy) textareaRef.current?.focus();
   }, [isBusy, threadId]);
@@ -183,7 +192,9 @@ function ChatWindow({
             </div>
           ) : null}
 
-          {messages.map((message) => (
+          {messages.map((message) => {
+            const citations = citationsForMessage(message);
+            return (
             <Message key={message.id} from={message.role}>
               <MessageContent>
                 {message.parts.map((part, i) =>
@@ -191,9 +202,11 @@ function ChatWindow({
                     <MessageResponse key={i}>{part.text}</MessageResponse>
                   ) : null,
                 )}
+                {citations.length ? <Sources><SourcesTrigger count={citations.length} /><SourcesContent>{citations.map((citation) => <div key={`${citation.label}-${citation.source}`} className="flex items-start gap-2 rounded-md border border-border bg-secondary/40 px-3 py-2 text-xs text-foreground"><span className="font-medium">{citation.label}</span><span className="text-muted-foreground">{citation.source} · {citation.period}</span></div>)}</SourcesContent></Sources> : null}
               </MessageContent>
             </Message>
-          ))}
+            );
+          })}
 
           {status === "submitted" ? <Shimmer>Thinking…</Shimmer> : null}
         </ConversationContent>
