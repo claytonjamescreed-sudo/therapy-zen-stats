@@ -15,6 +15,9 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedGoalsRouteImport } from './routes/_authenticated/goals'
+import { Route as AuthenticatedMetricsRouteImport } from './routes/_authenticated/metrics'
+import { Route as AuthenticatedOnboardingQueueRouteImport } from './routes/_authenticated/onboarding-queue'
+import { Route as AuthenticatedPortfolioRouteImport } from './routes/_authenticated/portfolio'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedAgentsIndexRouteImport } from './routes/_authenticated/agents.index'
 import { Route as AuthenticatedAgentsThreadIdRouteImport } from './routes/_authenticated/agents.$threadId'
@@ -48,6 +51,22 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
 const AuthenticatedGoalsRoute = AuthenticatedGoalsRouteImport.update({
   id: '/goals',
   path: '/goals',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMetricsRoute = AuthenticatedMetricsRouteImport.update({
+  id: '/metrics',
+  path: '/metrics',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOnboardingQueueRoute =
+  AuthenticatedOnboardingQueueRouteImport.update({
+    id: '/onboarding-queue',
+    path: '/onboarding-queue',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPortfolioRoute = AuthenticatedPortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -86,6 +105,9 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/goals': typeof AuthenticatedGoalsRoute
+  '/metrics': typeof AuthenticatedMetricsRoute
+  '/onboarding-queue': typeof AuthenticatedOnboardingQueueRoute
+  '/portfolio': typeof AuthenticatedPortfolioRoute
   '/api/chat': typeof ApiChatRoute
   '/agents/$threadId': typeof AuthenticatedAgentsThreadIdRoute
   '/onboarding/archive': typeof AuthenticatedOnboardingArchiveRoute
@@ -98,6 +120,9 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/goals': typeof AuthenticatedGoalsRoute
+  '/metrics': typeof AuthenticatedMetricsRoute
+  '/onboarding-queue': typeof AuthenticatedOnboardingQueueRoute
+  '/portfolio': typeof AuthenticatedPortfolioRoute
   '/api/chat': typeof ApiChatRoute
   '/agents/$threadId': typeof AuthenticatedAgentsThreadIdRoute
   '/onboarding/archive': typeof AuthenticatedOnboardingArchiveRoute
@@ -112,6 +137,9 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/goals': typeof AuthenticatedGoalsRoute
+  '/_authenticated/metrics': typeof AuthenticatedMetricsRoute
+  '/_authenticated/onboarding-queue': typeof AuthenticatedOnboardingQueueRoute
+  '/_authenticated/portfolio': typeof AuthenticatedPortfolioRoute
   '/api/chat': typeof ApiChatRoute
   '/_authenticated/agents/$threadId': typeof AuthenticatedAgentsThreadIdRoute
   '/_authenticated/onboarding/archive': typeof AuthenticatedOnboardingArchiveRoute
@@ -126,6 +154,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/goals'
+    | '/metrics'
+    | '/onboarding-queue'
+    | '/portfolio'
     | '/api/chat'
     | '/agents/$threadId'
     | '/onboarding/archive'
@@ -138,6 +169,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/goals'
+    | '/metrics'
+    | '/onboarding-queue'
+    | '/portfolio'
     | '/api/chat'
     | '/agents/$threadId'
     | '/onboarding/archive'
@@ -151,6 +185,9 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/_authenticated/goals'
+    | '/_authenticated/metrics'
+    | '/_authenticated/onboarding-queue'
+    | '/_authenticated/portfolio'
     | '/api/chat'
     | '/_authenticated/agents/$threadId'
     | '/_authenticated/onboarding/archive'
@@ -209,6 +246,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGoalsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/metrics': {
+      id: '/_authenticated/metrics'
+      path: '/metrics'
+      fullPath: '/metrics'
+      preLoaderRoute: typeof AuthenticatedMetricsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/onboarding-queue': {
+      id: '/_authenticated/onboarding-queue'
+      path: '/onboarding-queue'
+      fullPath: '/onboarding-queue'
+      preLoaderRoute: typeof AuthenticatedOnboardingQueueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/portfolio': {
+      id: '/_authenticated/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof AuthenticatedPortfolioRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -251,6 +309,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedGoalsRoute: typeof AuthenticatedGoalsRoute
+  AuthenticatedMetricsRoute: typeof AuthenticatedMetricsRoute
+  AuthenticatedOnboardingQueueRoute: typeof AuthenticatedOnboardingQueueRoute
+  AuthenticatedPortfolioRoute: typeof AuthenticatedPortfolioRoute
   AuthenticatedAgentsThreadIdRoute: typeof AuthenticatedAgentsThreadIdRoute
   AuthenticatedOnboardingArchiveRoute: typeof AuthenticatedOnboardingArchiveRoute
   AuthenticatedAgentsIndexRoute: typeof AuthenticatedAgentsIndexRoute
@@ -261,6 +322,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedGoalsRoute: AuthenticatedGoalsRoute,
+  AuthenticatedMetricsRoute: AuthenticatedMetricsRoute,
+  AuthenticatedOnboardingQueueRoute: AuthenticatedOnboardingQueueRoute,
+  AuthenticatedPortfolioRoute: AuthenticatedPortfolioRoute,
   AuthenticatedAgentsThreadIdRoute: AuthenticatedAgentsThreadIdRoute,
   AuthenticatedOnboardingArchiveRoute: AuthenticatedOnboardingArchiveRoute,
   AuthenticatedAgentsIndexRoute: AuthenticatedAgentsIndexRoute,
