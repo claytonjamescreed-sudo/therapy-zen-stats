@@ -50,7 +50,7 @@ function OnboardingPage() {
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Onboarding</h1>
           <p className="text-sm text-muted-foreground">
-            Where {practice.name} stands on getting fully set up with Pepper.
+            Tasks from the {practice.name} Asana board, grouped by section.
           </p>
         </div>
         <Button asChild variant="outline" size="sm">
