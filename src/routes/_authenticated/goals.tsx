@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 
-export const Route = createFileRoute("/goals")({
+export const Route = createFileRoute("/_authenticated/goals")({
   head: () => ({
     meta: [
       { title: "Revenue Goals — Pepper" },

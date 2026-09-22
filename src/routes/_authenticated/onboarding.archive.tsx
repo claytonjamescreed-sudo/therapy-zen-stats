@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export const Route = createFileRoute("/onboarding/archive")({
+export const Route = createFileRoute("/_authenticated/onboarding/archive")({
   head: () => ({
     meta: [
       { title: "Completed Items — Pepper" },

@@ -9,104 +9,111 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as GoalsRouteImport } from './routes/goals'
-import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
-import { Route as OnboardingArchiveRouteImport } from './routes/onboarding.archive'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedGoalsRouteImport } from './routes/_authenticated/goals'
+import { Route as AuthenticatedOnboardingIndexRouteImport } from './routes/_authenticated/onboarding.index'
+import { Route as AuthenticatedOnboardingArchiveRouteImport } from './routes/_authenticated/onboarding.archive'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/_authenticated/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GoalsRoute = GoalsRouteImport.update({
-  id: '/goals',
+const AuthenticatedGoalsRoute = AuthenticatedGoalsRouteImport.update({
+  id: '/_authenticated/goals',
   path: '/goals',
   getParentRoute: () => rootRouteImport,
 } as any)
-const OnboardingIndexRoute = OnboardingIndexRouteImport.update({
-  id: '/onboarding/',
-  path: '/onboarding/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OnboardingArchiveRoute = OnboardingArchiveRouteImport.update({
-  id: '/onboarding/archive',
-  path: '/onboarding/archive',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const AuthenticatedOnboardingIndexRoute =
+  AuthenticatedOnboardingIndexRouteImport.update({
+    id: '/_authenticated/onboarding/',
+    path: '/onboarding/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedOnboardingArchiveRoute =
+  AuthenticatedOnboardingArchiveRouteImport.update({
+    id: '/_authenticated/onboarding/archive',
+    path: '/onboarding/archive',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/goals': typeof GoalsRoute
-  '/onboarding/archive': typeof OnboardingArchiveRoute
-  '/onboarding/': typeof OnboardingIndexRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/goals': typeof AuthenticatedGoalsRoute
+  '/onboarding/archive': typeof AuthenticatedOnboardingArchiveRoute
+  '/onboarding/': typeof AuthenticatedOnboardingIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/goals': typeof GoalsRoute
-  '/onboarding/archive': typeof OnboardingArchiveRoute
-  '/onboarding': typeof OnboardingIndexRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/goals': typeof AuthenticatedGoalsRoute
+  '/onboarding/archive': typeof AuthenticatedOnboardingArchiveRoute
+  '/onboarding': typeof AuthenticatedOnboardingIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/goals': typeof GoalsRoute
-  '/onboarding/archive': typeof OnboardingArchiveRoute
-  '/onboarding/': typeof OnboardingIndexRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/goals': typeof AuthenticatedGoalsRoute
+  '/_authenticated/onboarding/archive': typeof AuthenticatedOnboardingArchiveRoute
+  '/_authenticated/onboarding/': typeof AuthenticatedOnboardingIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/goals' | '/onboarding/archive' | '/onboarding/'
+  fullPaths: '/dashboard' | '/goals' | '/onboarding/archive' | '/onboarding/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/goals' | '/onboarding/archive' | '/onboarding'
-  id: '__root__' | '/' | '/goals' | '/onboarding/archive' | '/onboarding/'
+  to: '/dashboard' | '/goals' | '/onboarding/archive' | '/onboarding'
+  id:
+    | '__root__'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/goals'
+    | '/_authenticated/onboarding/archive'
+    | '/_authenticated/onboarding/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  GoalsRoute: typeof GoalsRoute
-  OnboardingArchiveRoute: typeof OnboardingArchiveRoute
-  OnboardingIndexRoute: typeof OnboardingIndexRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedGoalsRoute: typeof AuthenticatedGoalsRoute
+  AuthenticatedOnboardingArchiveRoute: typeof AuthenticatedOnboardingArchiveRoute
+  AuthenticatedOnboardingIndexRoute: typeof AuthenticatedOnboardingIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/goals': {
-      id: '/goals'
+    '/_authenticated/goals': {
+      id: '/_authenticated/goals'
       path: '/goals'
       fullPath: '/goals'
-      preLoaderRoute: typeof GoalsRouteImport
+      preLoaderRoute: typeof AuthenticatedGoalsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/onboarding/': {
-      id: '/onboarding/'
+    '/_authenticated/onboarding/': {
+      id: '/_authenticated/onboarding/'
       path: '/onboarding'
       fullPath: '/onboarding/'
-      preLoaderRoute: typeof OnboardingIndexRouteImport
+      preLoaderRoute: typeof AuthenticatedOnboardingIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/onboarding/archive': {
-      id: '/onboarding/archive'
+    '/_authenticated/onboarding/archive': {
+      id: '/_authenticated/onboarding/archive'
       path: '/onboarding/archive'
       fullPath: '/onboarding/archive'
-      preLoaderRoute: typeof OnboardingArchiveRouteImport
+      preLoaderRoute: typeof AuthenticatedOnboardingArchiveRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  GoalsRoute: GoalsRoute,
-  OnboardingArchiveRoute: OnboardingArchiveRoute,
-  OnboardingIndexRoute: OnboardingIndexRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedGoalsRoute: AuthenticatedGoalsRoute,
+  AuthenticatedOnboardingArchiveRoute: AuthenticatedOnboardingArchiveRoute,
+  AuthenticatedOnboardingIndexRoute: AuthenticatedOnboardingIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
