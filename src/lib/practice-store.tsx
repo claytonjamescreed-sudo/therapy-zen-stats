@@ -29,21 +29,21 @@ export function PracticeProvider({
   );
   const [practiceId, setId] = useState(practices[0]?.id ?? allPractices[0]!.id);
   const [rates, setRates] = useState<Record<string, number>>(() =>
-    Object.fromEntries(practices.map((p) => [p.id, p.defaultRate])),
+    Object.fromEntries(allPractices.map((p) => [p.id, p.defaultRate])),
   );
   const [goals, setGoals] = useState<Record<string, number>>(() =>
-    Object.fromEntries(practices.map((p) => [p.id, p.revenueGoal])),
+    Object.fromEntries(allPractices.map((p) => [p.id, p.revenueGoal])),
   );
   const [checklists, setChecklists] = useState<Record<string, ChecklistPhase[]>>(() =>
     Object.fromEntries(
-      practices.map((p) => [
+      allPractices.map((p) => [
         p.id,
         p.onboarding.map((phase) => ({ ...phase, items: phase.items.map((i) => ({ ...i })) })),
       ]),
     ),
   );
 
-  const practice = practices.find((p) => p.id === practiceId) ?? practices[0]!;
+  const practice = practices.find((p) => p.id === practiceId) ?? practices[0] ?? allPractices[0]!;
 
   const setPracticeId = useCallback((id: string) => setId(id), []);
   const setRate = useCallback(
