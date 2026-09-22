@@ -83,10 +83,14 @@ function OnboardingPage() {
               )}
             </p>
           </div>
-          <div className="flex flex-col gap-2 text-xs text-muted-foreground md:w-56">
-            <span className="flex items-center gap-2">
-              <RefreshCcw className="size-3.5" /> Asana two-way sync — coming soon
+          <div className="flex flex-col gap-2 rounded-lg border border-border bg-secondary/40 p-3 text-xs text-muted-foreground md:w-64">
+            <span className="flex items-center gap-2 font-medium text-foreground">
+              <RefreshCcw className="size-3.5" /> {practice.asanaBoard.name}
             </span>
+            <span>
+              Asana board · last read {practice.asanaBoard.syncedMinutesAgo} min ago (demo data)
+            </span>
+            <span>Write-back to Asana — coming soon</span>
             <span className="flex items-center gap-2">
               <Bell className="size-3.5" /> Email reminders — coming soon
             </span>
