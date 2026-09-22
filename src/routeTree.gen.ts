@@ -17,6 +17,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedGoalsRouteImport } from './routes/_authenticated/goals'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedAgentsIndexRouteImport } from './routes/_authenticated/agents.index'
+import { Route as AuthenticatedAgentsThreadIdRouteImport } from './routes/_authenticated/agents.$threadId'
 import { Route as AuthenticatedOnboardingIndexRouteImport } from './routes/_authenticated/onboarding.index'
 import { Route as AuthenticatedOnboardingArchiveRouteImport } from './routes/_authenticated/onboarding.archive'
 
@@ -60,6 +61,12 @@ const AuthenticatedAgentsIndexRoute =
     path: '/agents/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAgentsThreadIdRoute =
+  AuthenticatedAgentsThreadIdRouteImport.update({
+    id: '/agents/$threadId',
+    path: '/agents/$threadId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedOnboardingIndexRoute =
   AuthenticatedOnboardingIndexRouteImport.update({
     id: '/onboarding/',
@@ -80,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/goals': typeof AuthenticatedGoalsRoute
   '/api/chat': typeof ApiChatRoute
+  '/agents/$threadId': typeof AuthenticatedAgentsThreadIdRoute
   '/onboarding/archive': typeof AuthenticatedOnboardingArchiveRoute
   '/agents/': typeof AuthenticatedAgentsIndexRoute
   '/onboarding/': typeof AuthenticatedOnboardingIndexRoute
@@ -91,6 +99,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/goals': typeof AuthenticatedGoalsRoute
   '/api/chat': typeof ApiChatRoute
+  '/agents/$threadId': typeof AuthenticatedAgentsThreadIdRoute
   '/onboarding/archive': typeof AuthenticatedOnboardingArchiveRoute
   '/agents': typeof AuthenticatedAgentsIndexRoute
   '/onboarding': typeof AuthenticatedOnboardingIndexRoute
@@ -104,6 +113,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/goals': typeof AuthenticatedGoalsRoute
   '/api/chat': typeof ApiChatRoute
+  '/_authenticated/agents/$threadId': typeof AuthenticatedAgentsThreadIdRoute
   '/_authenticated/onboarding/archive': typeof AuthenticatedOnboardingArchiveRoute
   '/_authenticated/agents/': typeof AuthenticatedAgentsIndexRoute
   '/_authenticated/onboarding/': typeof AuthenticatedOnboardingIndexRoute
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/goals'
     | '/api/chat'
+    | '/agents/$threadId'
     | '/onboarding/archive'
     | '/agents/'
     | '/onboarding/'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/goals'
     | '/api/chat'
+    | '/agents/$threadId'
     | '/onboarding/archive'
     | '/agents'
     | '/onboarding'
@@ -140,6 +152,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/goals'
     | '/api/chat'
+    | '/_authenticated/agents/$threadId'
     | '/_authenticated/onboarding/archive'
     | '/_authenticated/agents/'
     | '/_authenticated/onboarding/'
@@ -210,6 +223,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAgentsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/agents/$threadId': {
+      id: '/_authenticated/agents/$threadId'
+      path: '/agents/$threadId'
+      fullPath: '/agents/$threadId'
+      preLoaderRoute: typeof AuthenticatedAgentsThreadIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/onboarding/': {
       id: '/_authenticated/onboarding/'
       path: '/onboarding'
@@ -231,6 +251,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedGoalsRoute: typeof AuthenticatedGoalsRoute
+  AuthenticatedAgentsThreadIdRoute: typeof AuthenticatedAgentsThreadIdRoute
   AuthenticatedOnboardingArchiveRoute: typeof AuthenticatedOnboardingArchiveRoute
   AuthenticatedAgentsIndexRoute: typeof AuthenticatedAgentsIndexRoute
   AuthenticatedOnboardingIndexRoute: typeof AuthenticatedOnboardingIndexRoute
@@ -240,6 +261,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedGoalsRoute: AuthenticatedGoalsRoute,
+  AuthenticatedAgentsThreadIdRoute: AuthenticatedAgentsThreadIdRoute,
   AuthenticatedOnboardingArchiveRoute: AuthenticatedOnboardingArchiveRoute,
   AuthenticatedAgentsIndexRoute: AuthenticatedAgentsIndexRoute,
   AuthenticatedOnboardingIndexRoute: AuthenticatedOnboardingIndexRoute,
