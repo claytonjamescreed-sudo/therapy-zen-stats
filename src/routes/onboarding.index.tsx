@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/onboarding/")({
   head: () => ({
@@ -123,7 +124,12 @@ function OnboardingPage() {
                   >
                     <Checkbox
                       checked={item.done}
-                      onCheckedChange={() => toggleItem(phase.id, item.id)}
+                      onCheckedChange={() => {
+                        toggleItem(phase.id, item.id);
+                        toast(item.done ? "Task reopened" : "Task marked complete", {
+                          description: "Write-back to Asana isn't live yet — demo only.",
+                        });
+                      }}
                       className="mt-0.5"
                     />
                     <span className="min-w-0 flex-1">
