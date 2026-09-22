@@ -141,6 +141,32 @@ function AuthPage() {
                 {busy ? "Please wait…" : setupMode ? "Create owner account" : "Sign in"}
               </Button>
             </form>
+
+            <div className="mt-6 border-t border-border pt-4">
+              <p className="text-xs text-muted-foreground">
+                Testing shortcut — remove before real client data goes in.
+              </p>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={busy}
+                  onClick={() => devLogin("owner")}
+                >
+                  Dev login (owner)
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={busy}
+                  onClick={() => devLogin("client")}
+                >
+                  Dev login (client)
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
